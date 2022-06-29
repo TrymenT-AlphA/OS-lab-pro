@@ -290,19 +290,3 @@ int sys_umask(int mask)
 	current->umask = mask & 0777;
 	return (old);
 }
-
-int sys_execve2(const char *name){
-	printk("Hello from sys_execve2\n");
-}
-
-int sys_getdents(const char *name){
-	printk("Hello from sys_getdents\n");
-}
-
-int sys_sleep(const char *name){
-	printk("Hello from sys_sleep\n");
-}
-
-int sys_getcwd(const char *name){
-	printk("Hello from sys_getcwd\n");
-}
