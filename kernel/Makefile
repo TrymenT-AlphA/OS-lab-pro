@@ -33,7 +33,7 @@ kernel.o: $(OBJS)
 	sync
 
 clean:
-	rm -f core *.o *.a tmp_make keyboard.s
+	rm -f core *.o *.a tmp_make keyboard.s mouse.s
 	for i in *.c;do rm -f `basename $$i .c`.s;done
 	(cd chr_drv; make clean)
 	(cd blk_drv; make clean)
