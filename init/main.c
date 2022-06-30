@@ -25,6 +25,7 @@ __always_inline _syscall0(int,fork)
 __always_inline _syscall0(int,pause)
 __always_inline _syscall1(int,setup,void *,BIOS)
 __always_inline _syscall0(int,sync)
+__always_inline _syscall0(int,initgraphics)
 
 #include <linux/tty.h>
 #include <linux/sched.h>

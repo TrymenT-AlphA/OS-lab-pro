@@ -1,5 +1,5 @@
 /*
- *  linux/kernel/mouse.S
+ *  linux/kernel/chr_drv/mouse.S
  */
 
 .text
@@ -11,7 +11,6 @@ mouse_interrupt:
 	pushl %ecx
 	pushl %edx
 	push %ds
-	push %es
 	movl $0x10, %eax
 	mov %ax, %ds
 	xor %eax,%eax
@@ -22,7 +21,6 @@ mouse_interrupt:
 	movb $0x20,%al
 	outb %al,$0xA0
 	outb %al,$0x20
-	pop %es
 	pop %ds
 	popl %edx
 	popl %ecx
