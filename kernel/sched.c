@@ -302,10 +302,67 @@ void add_timer(long jiffies, void (*fn)(void))
 	sti();
 }
 
+/*
+ *  timer
+ */
+#include <message.h>
+struct user_timer{
+	long init_jiffies;
+	long jiffies;
+	int type; // 类型为1表示只定义了一次闹钟
+			  // 类型为0表示定义了无数次闹钟
+	int pid; // 哪个进程创建的定时器
+	struct user_timer * next;
+};
+
+struct user_timer * user_timer_list = NULL;
+
+int sys_timer_create(long ms, int type)
+{
+	struct user_timer * timer = malloc(sizeof(struct user_timer));
+	long jiffies = ms / 10;
+	timer->jiffies = timer->init_jiffies = jiffies;
+	timer->pid = current->pid;
+	timer->type = type;
+	timer->next = user_timer_list;
+	user_timer_list = timer;
+	return 0;
+}
+
 void do_timer(long cpl)
 {
 	extern int beepcount;
 	extern void sysbeepstop(void);
+
+	struct user_timer * timer = user_timer_list;
+	struct user_timer * prev = NULL;
+
+	while(timer != NULL)
+	{
+		if (--timer->jiffies <= 0) {
+			post_message(MSG_USER_TIMER);
+			switch(timer->type) {
+			case TYPE_USER_TIMER_INFTY: // 定义了无数次消息
+				timer->jiffies = timer->init_jiffies;
+				prev = timer;
+				timer = timer->next;
+				break;
+			case TYPE_USER_TIMER_ONCE: // 定义了一次消息
+				if (prev == NULL) {
+					free(timer);
+					timer = NULL;
+					user_timer_list = NULL;
+				}
+				else {
+					prev->next = timer->next;
+					free(timer);
+					timer = prev->next;
+				}
+				break;
+			default: break;
+			}
+		}
+	}
 
 	if (beepcount)
 		if (!--beepcount)

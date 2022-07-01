@@ -1,6 +1,7 @@
 #include<linux/sched.h>
 #include<asm/segment.h>
 #include<message.h>
+struct message msg_que[1024];
 unsigned int msg_que_fron, msg_que_rear;
 void post_message(int type){
     if (msg_que_rear != msg_que_fron - 1) {

@@ -146,6 +146,7 @@
 #define __NR_uselib	86
 #define __NR_initgraphics 87
 #define __NR_get_message 88
+#define __NR_timercreate 89
 
 #define _syscall0(type,name) \
 type name(void) \

@@ -41,10 +41,10 @@ int sys_initgraphics(void)
     outb(0x0D, 0x3D4);
     outb(0x0, 0x3D5); // 将Start Address设置为0xA0000
 
-    int i;
-    char * p = vga_graph_memstart;
-    for (i = 0; i < vga_graph_memsize; ++i)
-        *p++ = 3;
+    // int i;
+    // char * p = vga_graph_memstart;
+    // for (i = 0; i < vga_graph_memsize; ++i)
+    //     *p++ = 3;
     
-    return 0;
+    // return 0;
 }
