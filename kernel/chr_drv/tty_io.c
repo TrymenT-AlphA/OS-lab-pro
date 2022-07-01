@@ -47,7 +47,7 @@
 #define O_CRNL(tty)	_O_FLAG((tty),OCRNL)
 #define O_NLRET(tty)	_O_FLAG((tty),ONLRET)
 #define O_LCUC(tty)	_O_FLAG((tty),OLCUC)
-
+int volatile global_message;
 struct tty_struct tty_table[] = {
 	{
 		{ICRNL,		/* change incoming CR to NL */
@@ -383,6 +383,9 @@ void readmouse(int mousecode)
 			mouse_x_overflow = (mousecode & 0x40) == 0x40;
 			mouse_y_overflow = (mousecode & 0x80) == 0x80;
 			++mouse_input_count;
+			if(mouse_left_down==1 && mouse_x_sign==0 &&mouse_y_sign==0){
+				post_message();
+			}
 			#ifdef CK_DEBUG
 			printk("read 1 byte\n");
 			#endif
@@ -415,4 +418,10 @@ void readmouse(int mousecode)
 			#endif
 			break;
 	}
+}
+void post_message(){
+	cli();
+	if(global_message<=10)global_message++;
+	sti();
+	return;
 }

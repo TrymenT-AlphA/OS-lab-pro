@@ -8,7 +8,7 @@
 
 #ifndef _TTY_H
 #define _TTY_H
-
+extern int volatile global_message;
 #include <termios.h>
 
 #define TTY_BUF_SIZE 1024

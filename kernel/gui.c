@@ -3,7 +3,7 @@
  */
 
 #include <asm/io.h>
-
+int volatile global_message;
 #define vga_graph_memstart 0xA0000
 #define vga_graph_memsize 64000
 #define cursor_side 6
@@ -47,4 +47,8 @@ int sys_initgraphics(void)
         *p++ = 3;
     
     return 0;
+}
+int sys_get_message(){
+    if(global_message>0) --global_message;
+    return global_message;
 }
