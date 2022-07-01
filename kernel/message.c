@@ -14,14 +14,15 @@ void post_message(int type){
 }
 void sys_get_message(struct message *msg) {
     struct message tmp;
-	if(msg_que_rear==msg_que_fron){
-		put_fs_long(0,msg);
+	if(msg_que_rear == msg_que_fron){
+		put_fs_long(-1,&msg->mid);
+		put_fs_long(-1,&msg->pid);
 		return;
 	}
 	
 	tmp = msg_que[msg_que_fron];
 	msg_que[msg_que_fron].mid = 0;
 	msg_que_fron = (msg_que_fron + 1) % 1024;;
-	put_fs_long(tmp.mid,msg);
-
+	put_fs_long(tmp.mid,&msg->mid);
+	put_fs_long(current->pid,&msg->pid);
 }

@@ -4,9 +4,8 @@
 #include <unistd.h>
 
 struct message {
-    int mid; /* 消息的id */
-    int pid; /* 消息的目标进程，如果是当前进程，设置为-1 */
-    struct message *next;
+    long mid; /* 消息的id */
+    long pid; /* 消息的目标进程，如果是当前进程，设置为-1 */
 } message;
 
 struct rect {
@@ -91,6 +90,7 @@ int main(void)
     timercreate(CLOCK_TRIGGER, TYPE_USER_TIMER_INFTY);
     while(1)
     {
+        get_message(&msg);
         if (get_message(&msg))
         {
             switch(msg.mid)

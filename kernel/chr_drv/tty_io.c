@@ -385,9 +385,19 @@ void readmouse(int mousecode)
 			mouse_y_overflow = (mousecode & 0x80) == 0x80;
 			++mouse_input_count;
 			if (mouse_left_down)
+			{
+				#ifdef CK_DEBUG
+				printk("[readmouse]MSG_MOUSE_LEFT_DOWN\n");
+				#endif
 				post_message(MSG_MOUSE_LEFT_DOWN);
+			}
 			if (mouse_right_down)
+			{
+				#ifdef CK_DEBUG
+				printk("[readmouse]MSG_MOUSE_RIGHT_DOWN\n");
+				#endif
 				post_message(MSG_MOUSE_RIGHT_DOWN);
+			}
 			#ifdef CK_DEBUG
 			printk("read 1 byte\n");
 			#endif

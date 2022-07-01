@@ -339,7 +339,7 @@ void do_timer(long cpl)
 
 	while(timer != NULL)
 	{
-		if (--timer->jiffies <= 0) {
+		if ((--timer->jiffies) <= 0) {
 			post_message(MSG_USER_TIMER);
 			switch(timer->type) {
 			case TYPE_USER_TIMER_INFTY: // 定义了无数次消息
@@ -359,8 +359,15 @@ void do_timer(long cpl)
 					timer = prev->next;
 				}
 				break;
-			default: break;
+			default:
+				panic("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+				break;
 			}
+		}
+		else
+		{
+			prev = timer;
+			timer = timer->next;
 		}
 	}
 
