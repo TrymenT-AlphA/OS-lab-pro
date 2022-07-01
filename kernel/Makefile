@@ -81,6 +81,6 @@ traps.s traps.o : traps.c ../include/string.h ../include/linux/head.h \
   ../include/linux/mm.h ../include/signal.h ../include/linux/kernel.h \
   ../include/asm/system.h ../include/asm/segment.h ../include/asm/io.h 
 vsprintf.s vsprintf.o : vsprintf.c ../include/stdarg.h ../include/string.h 
-gui.s gui.o : gui.c ../include/asm/io.h
+gui.s gui.o : gui.c ../include/asm/io.h ../include/asm/segment.h
 message.s message.o : gui.c ../include/linux/sched.h ../include/message.h \
   ../include/asm/segment.h

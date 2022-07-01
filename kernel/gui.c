@@ -3,6 +3,7 @@
  */
 
 #include <asm/io.h>
+#include <asm/segment.h>
 
 #define vga_graph_memstart 0xA0000
 #define vga_graph_memsize 64000
@@ -41,6 +42,7 @@ int sys_initgraphics(void)
     outb(0x0D, 0x3D4);
     outb(0x0, 0x3D5); // 将Start Address设置为0xA0000
 
+    // 绘制背景
     int i;
     char * p;
     p = (char *)vga_graph_memstart;
@@ -48,4 +50,32 @@ int sys_initgraphics(void)
         *p++ = 3;
     
     return 0;
+}
+
+
+struct rect {
+    long color;
+    long x;
+    long y;
+    long dx;
+    long dy;
+};
+
+int sys_paintrect(struct rect * rect)
+{
+    int i, j;
+    char * p;
+    long color = get_fs_long(&rect->color);
+    long x = get_fs_long(&rect->x);
+    long y = get_fs_long(&rect->y);
+    long dx = get_fs_long(&rect->dx);
+    long dy = get_fs_long(&rect->dy);
+    for (i = x; i < x+dx; ++i)
+        for (j = y; j < y+dy; ++j)
+            if (vga_width*j + i >= vga_graph_memsize)
+                return -1;
+            else {
+                p = (char *)vga_graph_memstart + vga_width*j + i;
+                *p = color;
+            }
 }

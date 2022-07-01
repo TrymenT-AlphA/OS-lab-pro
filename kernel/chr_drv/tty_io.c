@@ -384,7 +384,7 @@ void readmouse(int mousecode)
 			mouse_x_overflow = (mousecode & 0x40) == 0x40;
 			mouse_y_overflow = (mousecode & 0x80) == 0x80;
 			++mouse_input_count;
-			if(mouse_left_down)
+			if (mouse_left_down)
 				post_message(MSG_MOUSE_LEFT_DOWN);
 			if (mouse_right_down)
 				post_message(MSG_MOUSE_RIGHT_DOWN);
