@@ -351,6 +351,7 @@ void chr_dev_init(void)
 /*
  *  readmouse
  */
+#include <message.h>
 // 鼠标中断处理程序的主体代码（鼠标数据解析）
 static unsigned char mouse_input_count = 0; // 用来记录是鼠标输入的第几个字节的全局变量
 static unsigned char mouse_left_down; // 左键按下标志，1表示按下了左键
@@ -383,9 +384,10 @@ void readmouse(int mousecode)
 			mouse_x_overflow = (mousecode & 0x40) == 0x40;
 			mouse_y_overflow = (mousecode & 0x80) == 0x80;
 			++mouse_input_count;
-			if(mouse_left_down==1 && mouse_x_sign==0 &&mouse_y_sign==0){
-				post_message();
-			}
+			if(mouse_left_down)
+				post_message(MSG_MOUSE_LEFT_DOWN);
+			if (mouse_right_down)
+				post_message(MSG_MOUSE_RIGHT_DOWN);
 			#ifdef CK_DEBUG
 			printk("read 1 byte\n");
 			#endif

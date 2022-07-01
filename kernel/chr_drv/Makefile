@@ -62,7 +62,7 @@ tty_io.s tty_io.o : tty_io.c ../../include/ctype.h ../../include/errno.h \
   ../../include/linux/sched.h ../../include/linux/head.h \
   ../../include/linux/fs.h ../../include/linux/mm.h ../../include/linux/tty.h \
   ../../include/termios.h ../../include/asm/segment.h \
-  ../../include/asm/system.h 
+  ../../include/asm/system.h ../../include/message.h
 tty_ioctl.s tty_ioctl.o : tty_ioctl.c ../../include/errno.h ../../include/termios.h \
   ../../include/linux/sched.h ../../include/linux/head.h \
   ../../include/linux/fs.h ../../include/sys/types.h ../../include/linux/mm.h \
