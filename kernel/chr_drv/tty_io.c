@@ -419,9 +419,3 @@ void readmouse(int mousecode)
 			break;
 	}
 }
-void post_message(){
-	cli();
-	if(global_message<=10)global_message++;
-	sti();
-	return;
-}
