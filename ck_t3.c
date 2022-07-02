@@ -34,7 +34,7 @@ int main()
     while(1)
     {
         get_message(&msg);
-        printf("msg.mid:%d\n", msg.mid);
+        /* printf("msg.mid:%d\n", msg.mid); */
         if (msg.mid > 0)
         {
             switch(msg.mid)
