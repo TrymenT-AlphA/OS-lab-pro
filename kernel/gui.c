@@ -70,10 +70,8 @@ int sys_paintrect(struct rect * rect)
     long y = get_fs_long(&rect->y);
     long dx = get_fs_long(&rect->dx);
     long dy = get_fs_long(&rect->dy);
-    for (i = x; i < x+dx; ++i)
-        for (j = y; j < y+dy; ++j) {
-            if (vga_width*j+i >= vga_graph_memsize)
-                continue; /* 忽略超出屏幕的像素 */
+    for (i = x; i < x+dx; ++i) if (0 <= i && i < vga_width)
+        for (j = y; j < y+dy; ++j) if (0 <= j && j < vga_heignt){
             p = (char *)vga_graph_memstart + vga_width*j + i;
             *p = color;
         }
