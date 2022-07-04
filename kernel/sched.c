@@ -340,13 +340,17 @@ void do_timer(long cpl)
 	while(timer != NULL)
 	{
 		if ((--timer->jiffies) <= 0) {
+			// 如果--jiffies<=0,则传递MSG_USER_TIMER消息
 			post_message(MSG_USER_TIMER);
 			switch(timer->type) {
+			// 无数次消息意味着每次--jiffies<=0则重置jiffies为初始值
+			// 可以继续重复这一循环
 			case TYPE_USER_TIMER_INFTY: // 定义了无数次消息
 				timer->jiffies = timer->init_jiffies;
 				prev = timer;
 				timer = timer->next;
 				break;
+			// 一次消息意味着将直接丢弃jiffies,只运行一次循环
 			case TYPE_USER_TIMER_ONCE: // 定义了一次消息
 				if (prev == NULL) {
 					free(timer);

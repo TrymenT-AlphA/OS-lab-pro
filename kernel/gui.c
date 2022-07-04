@@ -10,7 +10,7 @@
 #define cursor_side 6
 #define vga_width 320
 #define vga_heignt 200
-
+// 调用了以后显卡进入到Mode0x13图形模式中
 int sys_initgraphics(void)
 {
     // 建立像素点阵与显存之间的映射
@@ -56,22 +56,24 @@ int sys_initgraphics(void)
 
 
 struct rect {
-    long color; 
-    long x;
-    long y;
-    long dx;
-    long dy;
+    long color; // 颜色
+    long x; // 左下点x坐标
+    long y; // 左下点y坐标
+    long dx; // 矩形x边的长度
+    long dy; // 矩形y边的长度
 };
 
 int sys_paintrect(struct rect * rect)
 {
     int i, j;
     char * p;
+    // 将rect中的数据写入变量中
     long color = get_fs_long(&rect->color);
     long x = get_fs_long(&rect->x);
     long y = get_fs_long(&rect->y);
     long dx = get_fs_long(&rect->dx);
     long dy = get_fs_long(&rect->dy);
+    // 超出边界就忽略，在x~x+dx,y~y+dy上涂色
     for (i = x; i < x+dx; ++i) if (0 <= i && i < vga_width)
         for (j = y; j < y+dy; ++j) if (0 <= j && j < vga_heignt){
             p = (char *)vga_graph_memstart + vga_width*j + i;
