@@ -375,7 +375,7 @@ void readmouse(int mousecode)
 	}
 	switch(mouse_input_count)
 	{
-		case 1: // 处理第一个字节，取出信息
+		case 1: // 处理第一个字节，取出左,右键是否按下等信息
 			mouse_left_down = (mousecode & 0x1) == 0x1;
 			mouse_right_down = (mousecode & 0x2) == 0x2;
 			mouse_center_down = (mousecode & 0x4) == 0x4;

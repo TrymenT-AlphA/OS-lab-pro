@@ -47,14 +47,14 @@ int sys_initgraphics(void)
     char * p;
     p = (char *)vga_graph_memstart;
     for (i = 0; i < vga_graph_memsize; ++i)
-        *p++ = 3;
+        *p++ = 3; // 将背景颜色设置为蓝绿色
     
     return 0;
 }
 
 
 struct rect {
-    long color;
+    long color; 
     long x;
     long y;
     long dx;
