@@ -13,6 +13,7 @@
 
 int sys_initgraphics(void)
 {
+    // 建立像素点阵与显存之间的映射
     outb(0x05, 0x3CE);
     outb(0x40, 0x3CF); // 设定256色，且取出方式位移动拼装
     outb(0x06, 0x3CE);
@@ -20,6 +21,7 @@ int sys_initgraphics(void)
     outb(0x04, 0x3C4);
     outb(0x08, 0x3C5); // 设定将4个显存片连在一起
 
+    // 设置屏幕分辨率
     outb(0x01, 0x3D4);
     outb(0x4F, 0x3D5); // 设置End Horizontal Display为79
     outb(0x03, 0x3D4);
@@ -36,7 +38,7 @@ int sys_initgraphics(void)
     outb(0x40, 0x3D5); // 设置DW = 1
     outb(0x13, 0x3D4);
     outb(0x28, 0x3D5); // 设置Offset = 40
-
+    // 开始绘制屏幕
     outb(0x0C, 0x3D4);
     outb(0x0, 0x3D5);
     outb(0x0D, 0x3D4);
