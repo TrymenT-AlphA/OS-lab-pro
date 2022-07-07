@@ -28,31 +28,15 @@
 
 鼠标对应的数据寄存器端口地址是0x60，通过inb命令将该数据寄存器中存放的一个字节信息读入到寄存器AL（包含用户对鼠标操作的全部信息）中。
 
-![img](file:///C:/Users/16207/AppData/Local/Temp/msohtmlclip1/01/clip_image002.jpg)
-
-![img](file:///C:/Users/16207/AppData/Local/Temp/msohtmlclip1/01/clip_image004.jpg)
-
-![img](file:///C:/Users/16207/AppData/Local/Temp/msohtmlclip1/01/clip_image006.jpg)
-
-2. ##### 键盘控制器i8042和中断控制器8259A
-
-![img](file:///C:/Users/16207/AppData/Local/Temp/msohtmlclip1/01/clip_image008.jpg)
+##### 2.键盘控制器i8042和中断控制器8259A 
 
 ##### 3.鼠标输入数据的解码
 
 ###### （1）各个变量的含义
 
-![img](file:///C:/Users/16207/AppData/Local/Temp/msohtmlclip1/01/clip_image010.jpg)
-
 ###### （2） readmouse函数主体
 
    主要功能是读取以下信息并处理，计算鼠标的位置。
-
-![img](file:///C:/Users/16207/AppData/Local/Temp/msohtmlclip1/01/clip_image012.jpg)
-
-![img](file:///C:/Users/16207/AppData/Local/Temp/msohtmlclip1/01/clip_image014.jpg)
-
-![img](file:///C:/Users/16207/AppData/Local/Temp/msohtmlclip1/01/clip_image016.jpg)
 
 #### (二) 显示器的图形工作模式
 
@@ -62,25 +46,15 @@
 
 2. ##### 修改sys.h,unistd.h,main.c文件，添加sys_initgrahics系统调用
 
-![img](file:///C:/Users/16207/AppData/Local/Temp/msohtmlclip1/01/clip_image018.jpg)
-
-![img](file:///C:/Users/16207/AppData/Local/Temp/msohtmlclip1/01/clip_image020.jpg)
-
- 
-
-![img](file:///C:/Users/16207/AppData/Local/Temp/msohtmlclip1/01/clip_image022.jpg)
-
 3. ##### 在gui.c中实现sys_initgraphics
 
 ​	(1)启动图形模式:找到显示器控制器(实际上就是我们常说的显卡)中合适的寄存器,将显示器设置成以像素为基础的工作方式。
 
 ​	(2)设置屏幕分辨率:找到想要的像素点阵的行数和列数(实际上就是我们常说的屏幕分辨率),通过向显卡寄存器中写人合适的参数来得到这样的屏幕分辨率。
 
-​	(3)完成像素点阵和显存的映射 。![img](file:///C:/Users/16207/AppData/Local/Temp/msohtmlclip1/01/clip_image024.jpg)
+​	(3)完成像素点阵和显存的映射 。
 
 4. ##### 修改Makefile处理gui.c
-
-![img](file:///C:/Users/16207/AppData/Local/Temp/msohtmlclip1/01/clip_image026.jpg)
 
 #### (三) 消息驱动框架的实现
 
@@ -94,23 +68,11 @@
 
 1. ##### 增加sys_get_message系统调用
 
-![img](file:///C:/Users/16207/AppData/Local/Temp/msohtmlclip1/01/clip_image028.jpg)
-
-![img](file:///C:/Users/16207/AppData/Local/Temp/msohtmlclip1/01/clip_image030.jpg)
-
-![img](file:///C:/Users/16207/AppData/Local/Temp/msohtmlclip1/01/clip_image032.jpg)
-
 2. ##### 增加message.h文件，用作提供message的数据结构和各类变量定义
-
-![img](file:///C:/Users/16207/AppData/Local/Temp/msohtmlclip1/01/clip_image034.jpg)
 
 3. ##### 增加message.c文件，实现sys_get_message函数及post_message函数
 
-![img](file:///C:/Users/16207/AppData/Local/Temp/msohtmlclip1/01/clip_image036.jpg)
-
 4. ##### 修改Makefile，编译message.c文件
-
-![img](file:///C:/Users/16207/AppData/Local/Temp/msohtmlclip1/01/clip_image038.jpg)
 
 #### (四) 可视化应用程序的设计与实现
 
@@ -118,27 +80,13 @@
 
 1. ##### 添加定时器user_timer数据结构
 
-##### ![img](file:///C:/Users/16207/AppData/Local/Temp/msohtmlclip1/01/clip_image040.jpg)
-
 2. ##### 增加系统调用sys_timercreate（函数已更名为sys_timercreate）
-
-![img](file:///C:/Users/16207/AppData/Local/Temp/msohtmlclip1/01/clip_image042.jpg)
-
-![img](file:///C:/Users/16207/AppData/Local/Temp/msohtmlclip1/01/clip_image044.jpg)
 
 3. ##### 实现sys_timercreate
 
-硬件会在每一个滴答 (Linux 0.11将一个滴答设置为10 ms) 处向CPU发出一次时钟中断,操作系统在时钟中断处理函数do_timer() 中会扫描user_timer_list中的所有定时器,将每个定时器中的jiffies值减1。如果每个定时器的jiffies减为0,说明用户进程定义的定时器到时,时钟中断处理程序就产生一个定时器到时消息,用post_message发到系统消息队列中。![img](file:///C:/Users/16207/AppData/Local/Temp/msohtmlclip1/01/clip_image046.jpg)
+硬件会在每一个滴答 (Linux 0.11将一个滴答设置为10 ms) 处向CPU发出一次时钟中断,操作系统在时钟中断处理函数do_timer() 中会扫描user_timer_list中的所有定时器,将每个定时器中的jiffies值减1。如果每个定时器的jiffies减为0,说明用户进程定义的定时器到时,时钟中断处理程序就产生一个定时器到时消息,用post_message发到系统消息队列中。
 
 4. ##### 增加和实现绘制矩形接口调用sys_paintrect函数
-
-![img](file:///C:/Users/16207/AppData/Local/Temp/msohtmlclip1/01/clip_image048.jpg)
-
-![img](file:///C:/Users/16207/AppData/Local/Temp/msohtmlclip1/01/clip_image050.jpg)
-
-![img](file:///C:/Users/16207/AppData/Local/Temp/msohtmlclip1/01/clip_image052.jpg)
-
- 
 
 #### (五) 测试函数的实现
 
@@ -146,39 +94,13 @@
 
 功能：调用并测试sys_initgrahics系统调用是否正确及正确运行，其运行结果应当是整个Bochs同一颜色
 
-函数实现：
-
-![img](file:///C:/Users/16207/AppData/Local/Temp/msohtmlclip1/01/clip_image054.jpg)
-
-测试结果：
-
-![img](file:///C:/Users/16207/AppData/Local/Temp/msohtmlclip1/01/clip_image056.jpg)
-
-![img](file:///C:/Users/16207/AppData/Local/Temp/msohtmlclip1/01/clip_image058.jpg)
-
 2. ##### ck_t2.c测试文件
 
 功能：在ck_t1.c的基础上使用了paintreect函数，将ck_t1.c测试结果中的一定大小的颜色块颜色设定为红色
 
-实现代码：
-
-![img](file:///C:/Users/16207/AppData/Local/Temp/msohtmlclip1/01/clip_image060.jpg)
-
-测试结果：
-
-![img](file:///C:/Users/16207/AppData/Local/Temp/msohtmlclip1/01/clip_image062.jpg)
-
-![img](file:///C:/Users/16207/AppData/Local/Temp/msohtmlclip1/01/clip_image064.jpg)
-
 #####        3. ck_t3.c测试文件
 
 功能：检测鼠标按键响应，按下左键打印信息MSG_MOUSE_LEFT_DOWN,按下右键打印信息MSG_MOUSE_RIGHT_DOWN
-
-![img](file:///C:/Users/16207/AppData/Local/Temp/msohtmlclip1/01/clip_image066.jpg)
-
-测试结果：
-
-![img](file:///C:/Users/16207/AppData/Local/Temp/msohtmlclip1/01/clip_image068.gif)
 
 4. ##### 综合:FlappyBird.c的实现
 
